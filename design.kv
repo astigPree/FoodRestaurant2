@@ -1,0 +1,381 @@
+#:import chex kivy.utils.get_color_from_hex
+
+MainWidget :
+    spacing : dp(2)
+
+    list_of_items : list_of_items
+    selected_items : selected_items
+
+    # ----> Food Selections
+    ListOfItems :
+        id : list_of_items
+        size_hint : 0.65 , 1
+
+
+    # ----> Selected Items and Activity Buttons
+    BoxLayout :
+        size_hint : 0.35 , 1
+        orientation : 'vertical'
+
+        SelectedItems:
+            id : selected_items
+            size_hint : 1 , 0.6
+
+        ActivityButtons :
+            size_hint : 1 , 0.4
+
+
+# ============> Sub Parts Of Main Widget
+
+# -----> List Of Items ========================================================
+<ListOfItems>:
+    canvas.before :
+        Color :
+            rgba : chex('4ea6d7')
+        Rectangle:
+            pos: self.pos
+            size : self.size
+
+    orientation : 'vertical'
+    spacing : dp(2)
+
+    item_displayer : item_displayer
+
+    # ----> Title Bar
+    ListOfItemsTitleBar:
+        size_hint : 1 , 0.07
+
+    # -----> Search Bar
+    BoxLayout:
+        size_hint : 1 , 0.08
+        padding : [ dp(0) , dp(2) , dp(25) , dp(2) ]
+
+        SearchBarLabel:
+            size_hint : 0.3 , 1
+
+        MDTextField:
+            size_hint : 0.7 , 1
+            mode: "round"
+            font_name : 'text_font'
+            font_size : sp(20)
+
+            on_text :
+                root.finding = self.text
+
+    # -----> List Of Items
+    ScrollView :
+        size_hint : 1 , 0.85
+
+        MDGridLayout :
+            id : item_displayer
+            adaptive_height : True
+            cols : 1
+            spacing : sp(13)
+            padding : [ dp(15) , dp(25) , dp(15) , dp(25) ]
+
+<ItemModifier>:
+
+    size_hint : 1 , None
+    height : 150
+    padding : [dp(3) , dp(2) , dp(4) , dp(2) ]
+    spacing : dp(5)
+    md_bg_color : chex('0d4074')
+    radius : ( 10 , 0 , 10 , 10 )
+
+    # ---> Food Picture
+    FitImage:
+        size_hint : 0.2 , 1
+        source : root.pic_source
+        radius : (16 , 0 , 0 , 16 )
+
+    # ---> Information
+    BoxLayout:
+        size_hint : 0.8 , 1
+        orientation : 'vertical'
+        padding : [ dp(0) , dp(3) , dp(5) , dp(0) ]
+        spacing : dp(5)
+
+        # ----> Check Out And In Information
+        BoxLayout :
+            size_hint : 1 , 0.15
+            Label:
+                size_hint : 0.75 , 1
+
+            MDFillRoundFlatButton:
+                size_hint : 0.25 , 1
+                md_bg_color : 'gray' if not root.selected else chex('f6ba12')
+                font_name : 'text_font'
+                text : 'check out' if not root.selected else 'check in'
+                text_color : chex('172355')
+
+        # ----> Food Name
+        MDRaisedButton :
+            size_hint : 1 , 0.5
+            text : f'{root.food_name}'.upper()
+            font_name : 'text_font'
+            md_bg_color : chex('f8efb5')
+            text_color : 'black'
+            font_size : sp(25)
+
+        # -----> Food Activity
+        BoxLayout :
+            size_hint : 1 , 0.35
+            spacing : dp(6)
+
+            ListOfItemsPriceLabel:
+                text : '  Price : '
+                size_hint : 0.1 , 1
+                halign : 'left'
+
+            ListOfItemsPriceLabel:
+                size_hint : 0.6 , 1
+                text: f'${root.food_price:.2f}'
+                text_size: self.width , None
+                color : chex('f6ba12')
+
+            BoxLayout :
+                size_hint : 0.3 , 1
+                padding : [ dp(5) , dp(5) , dp(10) , dp(5) ]
+                spacing : dp(5)
+
+                MDRaisedButton :
+                    size_hint : 0.5 , 1
+                    text : 'ADD'
+                    font_name : 'number_font'
+                    md_bg_color : chex('f6ba12')
+                    text_color : 'black'
+                    font_size : sp(18)
+
+                    on_release:
+                        root.addButton()
+
+                MDRaisedButton :
+                    size_hint : 0.5 , 1
+                    text : 'MIN'
+                    font_name : 'number_font'
+                    md_bg_color : 'gray'
+                    text_color : 'black'
+                    font_size : sp(18)
+
+                    on_release:
+                        root.minButton()
+
+# -----> Selected Items ========================================================
+<SelectedItems>:
+    canvas.before:
+        Color :
+            rgba : chex('f6ba12')
+        Rectangle:
+            pos : self.pos
+            size : self.size
+
+    orientation : 'vertical'
+    padding : [ dp(2) , dp(0) , dp(2) , dp(1) ]
+    spacing : dp(3)
+
+    list_of_data : list_of_data
+
+    # ---> Title Bar
+    SelectedItemsTitleBar:
+        size_hint : 1 , 0.07
+
+    # ---> Columns Header
+    BoxLayout:
+        size_hint : 1 , 0.07
+        spacing : dp(3)
+
+        SelectedItemInformationColumnTotalLabel:
+            size_hint : 0.45 , 1
+            text : 'NAME'
+
+        SelectedItemInformationColumnTotalLabel:
+            size_hint : 0.35 , 1
+            text : 'PRICE'
+
+        SelectedItemInformationColumnTotalLabel:
+            size_hint : 0.2 , 1
+            text : 'STOCK'
+
+    ScrollView :
+        size_hint : 1 , 0.76
+
+        MDGridLayout :
+            adaptive_height : True
+            cols : 1
+            spacing : dp(3)
+            padding : [ dp(0) , dp(5) , dp(0) , dp(15) ]
+            id : list_of_data
+
+            SelectedItemInformation:
+            SelectedItemInformation:
+
+    BoxLayout :
+        size_hint : 1 , 0.1
+        spacing : dp(3)
+
+        SelectedItemInformationColumnTotalLabel:
+            size_hint : 0.45 , 1
+            text : 'TOTAL :'
+
+        SelectedItemInformationColumnTotalLabel:
+            size_hint : 0.35 , 1
+            text : f'${root.total:.2f}'
+
+        SelectedItemInformationColumnTotalLabel:
+            size_hint : 0.2 , 1
+            text : f'{root.quantity}'
+
+
+<SelectedItemInformation>:
+    size_hint : 1 , None
+    height : 30
+    spacing : dp(3)
+
+    SelectedItemInformationColumnLabel:
+        size_hint : 0.45 , 1
+        text : f'{root.name}'.upper()
+
+    SelectedItemInformationColumnLabel:
+        size_hint : 0.35 , 1
+        text : f'${root.price:.2f}'
+
+    SelectedItemInformationColumnLabel:
+        size_hint : 0.2 , 1
+        text : f'{root.quantity}'
+
+# -----> Activity Buttons ========================================================
+<ActivityButtons>:
+    canvas.before:
+        Color :
+            rgba : chex('9e833b')
+        Rectangle:
+            pos : self.pos
+            size : self.size
+
+    orientation : 'vertical'
+    padding : [ dp(2) , dp(0) , dp(2) , dp(1) ]
+    spacing : dp(3)
+
+    # ---> Title Bar
+    ActivityButtonsTitleBar:
+        size_hint : 1 , 0.1
+
+    BoxLayout :
+        size_hint : 1 , 0.90
+        spacing : dp(5)
+        padding : [ dp(10) , dp(25) , dp(10) , dp(25) ]
+        orientation : 'vertical'
+
+        BoxLayout:
+            size_hint : 1 , 0.5
+            spacing : dp(10)
+
+            ActivityButton:
+                text : ' CREATE \n RECIEPT'
+                size_hint : 0.5 , 1
+
+                on_release:
+                    root.createReciept()
+
+            ActivityButton:
+                text : ' CLEAR \n DATA'
+                size_hint : 0.5 , 1
+
+                on_release :
+                    root.clearData()
+
+        BoxLayout:
+            size_hint : 1 , 0.5
+            spacing : dp(10)
+
+            ActivityButton:
+                text : 'N\A'
+                size_hint : 0.5 , 1
+
+            ActivityButton:
+                text : 'N\A'
+                size_hint : 0.5 , 1
+
+
+
+# ============> Design Widget
+<ActivityButton@MDRaisedButton>:
+    md_bg_color: chex('f6ba12')
+    text_color : 'black'
+    font_name : 'text_font'
+    font_size : sp(20)
+
+<ActivityButtonsTitleBar@Label>:
+    font_name : "title_font"
+    font_size : sp(16.5)
+    text : 'Activity Buttons'.upper()
+
+    canvas.before:
+        Color :
+            rgba : chex('172355')
+        RoundedRectangle:
+            pos : self.pos
+            size : self.size
+            radius : ( 0 , 0 , 10 , 10 )
+
+<SelectedItemInformationColumnTotalLabel@Label>:
+    font_name : 'number_font'
+    font_size : sp(17)
+    color : 'black'
+
+    canvas.before:
+        Color :
+            rgba : chex('4ea6d7')
+        RoundedRectangle:
+            pos : self.pos
+            size : self.size
+            radius : ( 5 , 5 , 0 , 0 )
+
+<SelectedItemInformationColumnLabel@Label>:
+    font_name : 'number_font'
+    font_size : sp(15.5)
+    color : 'black'
+
+    canvas.before:
+        Color :
+            rgb : 1 , 1, 1
+        RoundedRectangle:
+            pos : self.pos
+            size : self.size
+            radius : ( 5 , 5 , 5 , 5 )
+
+<SelectedItemsTitleBar@Label>:
+    font_name : "title_font"
+    font_size : sp(19)
+    text : 'Check In Foods'.upper()
+
+    canvas.before:
+        Color :
+            rgba : chex('172355')
+        RoundedRectangle:
+            pos : self.pos
+            size : self.size
+            radius : ( 0 , 0 , 10 , 10 )
+
+<ListOfItemsPriceLabel@Label>:
+    font_name : 'number_font'
+    font_size : sp(18)
+    color : 'white'
+
+<SearchBarLabel@Label>:
+    font_name : "title_font"
+    font_size : sp(20)
+    text : 'Search Food : '
+
+<ListOfItemsTitleBar@Label>:
+    font_name : "title_font"
+    font_size : sp(20)
+    text : 'l i s t     o f     f o o d s'.upper()
+
+    canvas.before:
+        Color :
+            rgba : chex('172355')
+        RoundedRectangle:
+            pos : self.pos
+            size : self.size
+            radius : ( 0 , 0 , 10 , 10 )
