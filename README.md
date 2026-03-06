@@ -2,8 +2,7 @@
 
 [![Python](https://img.shields.io/badge/Python-3670A0?style=flat\&logo=python\&logoColor=white)](https://www.python.org/)
 [![Kivy](https://img.shields.io/badge/Kivy-339933?style=flat\&logo=kivy\&logoColor=white)](https://kivy.org/)
-[![KivyMD](https://img.shields.io/badge/KivyMD-00BFFF?style=flat\&logo=kivy\&logoColor=white)](https://kivymd.readthedocs.io/en/latest/)
-[![Android](https://img.shields.io/badge/Android-App-green)](https://developer.android.com/)
+[![KivyMD](https://img.shields.io/badge/KivyMD-00BFFF?style=flat\&logo=kivy\&logoColor=white)](https://kivymd.readthedocs.io/en/latest/) 
  
 ## Short Introduction
 
@@ -62,8 +61,8 @@ This project is a beginner-friendly restaurant ordering system inspired by Biggâ
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/biggs-restaurant-ordering.git
-cd biggs-restaurant-ordering
+git clone https://github.com/astigPree/FoodRestaurant2.git
+cd FoodRestaurant2
 ```
 
 2. Install dependencies:
