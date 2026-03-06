@@ -77,5 +77,9 @@ pip install kivy kivymd
 python main.py
 ```
 
+
+
 > Optional: Build for Android using Buildozer or PyInstaller
 
+## Video Demo 🎥
+https://github.com/user-attachments/assets/d54be0fb-9c41-439f-ae53-764cc3632d45
